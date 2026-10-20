@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction and Risk Analysis</title>
+    <!-- Google Fonts & Font Awesome icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Top Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <i class="fa-solid fa-chart-line brand-icon"></i>
+                <span class="brand-name">Telecom Churn Radar</span>
+            </div>
+            <nav class="nav-tabs">
+                <button class="tab-btn active" data-tab="single-predict-tab">
+                    <i class="fa-solid fa-user-check"></i> Single Prediction
+                </button>
+                <button class="tab-btn" data-tab="model-metrics-tab">
+                    <i class="fa-solid fa-brain"></i> Model Comparison
+                </button>
+                <button class="tab-btn" data-tab="batch-predict-tab">
+                    <i class="fa-solid fa-file-csv"></i> Batch CSV
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Customer Churn Prediction & Risk Analysis</h1>
+                <p>Machine learning-powered intelligence to predict customer churn probability, classify risk levels, and deliver automated retention strategies.</p>
+            </div>
+        </section>
+
+        <!-- TAB 1: Single Prediction & Risk Analysis -->
+        <section id="single-predict-tab" class="tab-content active">
+            <div class="grid-2col">
+                
+                <!-- Input Form Card -->
+                <div class="card form-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-sliders"></i> Customer Profile</h2>
+                        <span class="subtitle">Enter customer attributes for churn risk evaluation</span>
+                    </div>
+
+                    <form id="churnForm">
+                        <div class="form-grid">
+
+                            <!-- Account Details -->
+                            <div class="form-section-title">Account & Financial Information</div>
+                            
+                            <div class="form-group">
+                                <label for="tenure"><i class="fa-regular fa-calendar-alt"></i> Tenure (Months)</label>
+                                <input type="number" id="tenure" name="tenure" min="0" max="72" value="5" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="monthly_charges"><i class="fa-solid fa-indian-rupee-sign"></i> Monthly Charges (₹/$)</label>
+                                <input type="number" id="monthly_charges" name="monthly_charges" min="0" step="0.5" value="80" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contract"><i class="fa-solid fa-file-contract"></i> Contract Type</label>
+                                <select id="contract" name="contract">
+                                    <option value="Month-to-month" selected>Month-to-month</option>
+                                    <option value="One year">One year</option>
+                                    <option value="Two year">Two year</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="payment_method"><i class="fa-solid fa-credit-card"></i> Payment Method</label>
+                                <select id="payment_method" name="payment_method">
+                                    <option value="Electronic check" selected>Electronic check</option>
+                                    <option value="Credit card (automatic)">Credit card (automatic)</option>
+                                    <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+                                    <option value="Mailed check">Mailed check</option>
+                                </select>
+                            </div>
+
+                            <!-- Services Subscribed -->
+                            <div class="form-section-title">Services & Infrastructure</div>
+
+                            <div class="form-group">
+                                <label for="internet_service"><i class="fa-solid fa-wifi"></i> Internet Service</label>
+                                <select id="internet_service" name="internet_service">
+                                    <option value="Fiber optic" selected>Fiber optic</option>
+                                    <option value="DSL">DSL</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone_service"><i class="fa-solid fa-phone"></i> Phone Service</label>
+                                <select id="phone_service" name="phone_service">
+                                    <option value="Yes" selected>Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tech_support"><i class="fa-solid fa-headset"></i> Tech Support</label>
+                                <select id="tech_support" name="tech_support">
+                                    <option value="No" selected>No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="online_security"><i class="fa-solid fa-shield-halved"></i> Online Security</label>
+                                <select id="online_security" name="online_security">
+                                    <option value="No" selected>No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+
+                            <!-- Demographics -->
+                            <div class="form-section-title">Customer Demographics</div>
+
+                            <div class="form-group">
+                                <label for="senior_citizen">Senior Citizen</label>
+                                <select id="senior_citizen" name="senior_citizen">
+                                    <option value="No" selected>No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="partner">Partner</label>
+                                <select id="partner" name="partner">
+                                    <option value="No" selected>No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dependents">Dependents</label>
+                                <select id="dependents" name="dependents">
+                                    <option value="No" selected>No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="paperless_billing">Paperless Billing</label>
+                                <select id="paperless_billing" name="paperless_billing">
+                                    <option value="Yes" selected>Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="predictBtn">
+                            <i class="fa-solid fa-bolt"></i> Predict Churn & Risk
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Prediction Results Dashboard -->
+                <div class="card results-card" id="resultsCard">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-chart-pie"></i> Risk Analysis Dashboard</h2>
+                        <span class="subtitle">Real-time inference & retention recommendations</span>
+                    </div>
+
+                    <div id="placeholderView" class="placeholder-view">
+                        <i class="fa-solid fa-microchip placeholder-icon"></i>
+                        <p>Fill out customer details and click <strong>Predict Churn & Risk</strong> to calculate churn likelihood.</p>
+                    </div>
+
+                    <div id="resultsView" class="results-view hidden">
+                        <!-- Risk Gauge & Meter Header -->
+                        <div class="risk-badge-box" id="riskBadgeBox">
+                            <div class="risk-tag" id="riskTag">HIGH RISK</div>
+                            <div class="prob-score" id="probScore">82%</div>
+                            <div class="prob-label">Churn Probability</div>
+                        </div>
+
+                        <!-- Progress Meter -->
+                        <div class="meter-bar-container">
+                            <div class="meter-bar-fill" id="meterBarFill"></div>
+                        </div>
+                        <div class="risk-scale-legend">
+                            <span>🟢 Low (0–30%)</span>
+                            <span>🟡 Medium (31–60%)</span>
+                            <span>🔴 High (61–100%)</span>
+                        </div>
+
+                        <!-- Recommended Business Action -->
+                        <div class="action-box" id="actionBox">
+                            <h4><i class="fa-solid fa-circle-exclamation"></i> Business Action Required</h4>
+                            <p id="actionText">Retention offer - Immediate Customer Success contact</p>
+                        </div>
+
+                        <!-- Retention Strategies -->
+                        <div class="recs-box">
+                            <h4><i class="fa-solid fa-lightbulb"></i> Tailored Retention Strategy</h4>
+                            <ul id="recsList" class="recs-list"></ul>
+                        </div>
+
+                        <!-- Key Risk Drivers -->
+                        <div class="drivers-box">
+                            <h4><i class="fa-solid fa-magnifying-glass-chart"></i> Top Churn Push Factors</h4>
+                            <div id="driversList" class="drivers-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 2: Model Performance Comparison -->
+        <section id="model-metrics-tab" class="tab-content hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-list-check"></i> Machine Learning Model Performance Matrix</h2>
+                    <span class="subtitle">Comparing Logistic Regression, Decision Tree, Random Forest & XGBoost</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="metrics-table">
+                        <thead>
+                            <tr>
+                                <th>Model Name</th>
+                                <th>Accuracy</th>
+                                <th>Precision</th>
+                                <th>Recall</th>
+                                <th>F1 Score</th>
+                                <th>ROC-AUC</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="metricsTableBody">
+                            <tr><td colspan="7">Loading model comparison metrics...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="viva-notes">
+                    <h3><i class="fa-solid fa-graduation-cap"></i> Model Selection Rationale</h3>
+                    <p><strong>Why Recall & F1-Score matter most:</strong> In telecom churn prediction, false negatives (failing to identify a churning customer) cost up to 5x more than proactive retention offers. High Recall ensures maximal churn capture, while Logistic Regression provides direct log-odds coefficient interpretability.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: Batch CSV Prediction -->
+        <section id="batch-predict-tab" class="tab-content hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-upload"></i> Bulk Customer Batch Risk Scoring</h2>
+                    <span class="subtitle">Upload a CSV dataset of customer records for automated batch prediction</span>
+                </div>
+
+                <div class="upload-box" id="dropZone">
+                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                    <p>Drag and drop customer CSV file here or click to browse</p>
+                    <input type="file" id="batchFile" accept=".csv" class="file-input">
+                    <button class="btn btn-secondary" onclick="document.getElementById('batchFile').click()">Choose File</button>
+                </div>
+
+                <div id="batchResults" class="batch-results hidden">
+                    <h3>Batch Cohort Summary</h3>
+                    <div class="stats-grid" id="statsGrid"></div>
+                    <h3>Customer Risk Score Preview</h3>
+                    <div class="table-responsive">
+                        <table class="metrics-table" id="batchPreviewTable">
+                            <thead>
+                                <tr>
+                                    <th>Tenure</th>
+                                    <th>Monthly ($)</th>
+                                    <th>Contract</th>
+                                    <th>Internet</th>
+                                    <th>Churn Proba</th>
+                                    <th>Risk Level</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batchPreviewBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
